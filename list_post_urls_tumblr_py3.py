@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'jacob'
+__author__ = 'chris'
 import pytumblr
 import urllib.request
 import os
@@ -8,7 +8,7 @@ import sys
 from urllib.parse import urlparse
 from os.path import splitext, basename
 
-BLOG = 'releasemindhk.tumblr.com'
+BLOG = 'YOUR_BLOG.tumblr.com'
 CLIENT = pytumblr.TumblrRestClient(
     'CONSUMER_KEY',
     'CONSUMER_SECRET',

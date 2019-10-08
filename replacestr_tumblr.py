@@ -5,7 +5,7 @@ Created on Fri Oct 20 18:40:39 2017
 @author: chris
 """
 
-__author__ = 'jacob'
+__author__ = 'chris'
 import pytumblr
 import urllib
 import os
