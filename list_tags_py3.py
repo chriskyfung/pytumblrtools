@@ -5,6 +5,7 @@ import pytumblr
 import urllib.request
 import os
 import sys
+import csv
 from urllib.parse import urlparse
 from os.path import splitext, basename
 
@@ -15,17 +16,6 @@ CLIENT = pytumblr.TumblrRestClient(
     'OAUTH_TOKEN',
     'OAUTH_SECRET'
 )
-
-#pytumblr doesn't handle unicode well, convert to string
-def encode_to_html(uni_str):
-    return uni_str.encode('ascii', 'xmlcharrefreplace')
-
-
-def get_filename(url):
-    disassembled = urlparse(url)
-    filename, file_ext = splitext(basename(disassembled.path))
-    return filename + file_ext
-
 
 def export_posts(client, from_blog):
     more = True
@@ -41,7 +31,7 @@ def export_posts(client, from_blog):
             more = False
     return all_posts
 
-tagDict = {};
+tagDict = {}
 all_posts = export_posts(CLIENT, BLOG)
 for post in all_posts:
     tags = post['tags']
@@ -50,4 +40,12 @@ for post in all_posts:
             tagDict[tag] += 1
         else:
             tagDict[tag] = 1
-print(sorted(tagDict.items(), key=lambda items: items[1], reverse=True))
+sortedTags = sorted(tagDict.items(), key=lambda items: items[1], reverse=True)
+print(sortedTags)
+
+with open(BLOG + '_tag_count.csv', 'w', encoding='utf-8', newline='\n') as f:
+    writer = csv.writer(f)
+    writer.writerow(['tags', 'num of post'])
+    for tag in sortedTags:
+        writer.writerow(tag)
+        f.flush()
