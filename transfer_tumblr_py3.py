@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'jacob'
+__author__ = 'jacob, chris'
 import pytumblr
 import urllib.request
 import os
@@ -8,7 +8,7 @@ import sys
 from urllib.parse import urlparse
 from os.path import splitext, basename
 
-FROM_BLOG = 'releasemindjp.tumblr.com'
+FROM_BLOG = 'OLD_BLOG.tumblr.com'
 FROM_CLIENT = pytumblr.TumblrRestClient(
     'CONSUMER_KEY',
     'CONSUMER_SECRET',
@@ -16,7 +16,7 @@ FROM_CLIENT = pytumblr.TumblrRestClient(
     'OAUTH_SECRET'
 )
 
-TO_BLOG = 'chrisfungky.tumblr.com'
+TO_BLOG = 'NEW_BLOG.tumblr.com'
 TO_CLIENT = pytumblr.TumblrRestClient(
     'CONSUMER_KEY',
     'CONSUMER_SECRET',
