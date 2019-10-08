@@ -20,5 +20,8 @@ A set of python scripts for manuplateing Tumblr blogs, which are inspired by [ub
 ### list_post_urls
 - List the urls of all blog posts
 
+### list_tags
+- List all tags with counts
+
 ### tumblr_replace_str_py
 - Replace a string in the body and caption of all text and photo
