@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-
 __author__ = 'chris'
 import pytumblr
 import urllib
 import os
 import sys
-from urlparse import urlparse
+from urllib.parse import urlparse
 from os.path import splitext, basename
 
 BLOGNAME = 'YOUR_BLOG.tumblr.com'
@@ -77,18 +76,12 @@ def strreplace_posts(posts, client, to_blog, oldstr, newstr):
                 if 'title' in post and post['title']:
                     print(post['title'])
             else:
-                print 'type not supported %s' % post['type']
+                print('type not supported %s' % post['type'])
 
         except:
-            print "Unexpected error:", sys.exc_info()[0]
-            print "%s" % post
+            print("Unexpected error:", sys.exc_info()[0])
+            print("%s" % post)
 
-def delete_posts(posts,client, blog_name):
-    if blog_name == BLOGNAME:
-        raise Exception('Are you sure you want to delete this?')
-    for post in posts:
-        client.delete_post(blog_name, post['id'])
 
 all_posts = export_posts(CLIENT, BLOGNAME)
-print(all_posts)
 strreplace_posts(all_posts, CLIENT, BLOGNAME, OLDSTR, NEWSTR)
