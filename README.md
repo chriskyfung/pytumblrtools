@@ -18,10 +18,10 @@ A set of python scripts for manuplateing Tumblr blogs, which are inspired by [ub
 - Transfer Tumblr posts to a new account
 
 ### list_post_urls
-- List the urls of all blog posts
+- List the urls of all blog posts, and export as a CSV file to local storage
 
 ### list_tags
-- List all tags with counts
+- List all tags with counts, and export as a CSV file to local storage
 
-### tumblr_replace_str_py
+### replacestr_in_allposts_py
 - Replace a string in the body and caption of all text and photo
