@@ -23,6 +23,9 @@ CLIENT = pytumblr.TumblrRestClient(
     'OAUTH_SECRET'
 )
 
+# Specify to lookup only the posts contain this given tag. Leave blank if no specific one.
+SPECTAG = 'Lifehack'
+
 def export_posts(client, from_blog):
     more = True
     offset = 0
@@ -41,27 +44,33 @@ def export_posts(client, from_blog):
 # args:
 #     posts
 #     DESC : True, for descending order
+#     filter : <String> a tag that must include 
 # return:
 #     [(tag1, count1), (tag2, count2), ...]
-def sortTagsByFeq(posts, DESC):
+def sortTagsByFeq(posts, DESC, filter):
     tagDict = {}
     for post in posts:
         tags = post['tags']
-        for tag in tags:
-            if tag in tagDict:
-                tagDict[tag] += 1
-            else:
-                tagDict[tag] = 1
+        if filter == '' or filter in tags:
+            for tag in tags:
+                if tag in tagDict:
+                    tagDict[tag] += 1
+                else:
+                    tagDict[tag] = 1
     return sorted(tagDict.items(), key=lambda items: items[1], reverse=DESC)
 
 # Save sortedTags data as a CSV file
 # args:
-#     from_blog : prefix of the output filename
+#     from_blog : <String> prefix of the output filename
 #     tags: [(tag1, count1), (tag2, count2), ...]
+#     filtername : <String>
 # return:
 #     filename : <from_blog> + '_tag_count.csv'
-def writeTags2CSV(from_blog, tags):
-    filename = from_blog + '_tag_count.csv'
+def writeTags2CSV(from_blog, tags, filtername):
+    suffix = ''
+    if filtername != '':
+        suffix = '_' + filtername + '_only'
+    filename = from_blog + '_tag_count' + suffix + '.csv'
     with open(filename, 'w', encoding='utf-8', newline='\n') as f:
         writer = csv.writer(f)
         writer.writerow(['tags', 'num of post'])
@@ -71,5 +80,5 @@ def writeTags2CSV(from_blog, tags):
     return filename
 
 all_posts = export_posts(CLIENT, BLOG)
-sortedTags = sortTagsByFeq(all_posts, True)
-writeTags2CSV(BLOG, sortedTags)
+sortedTags = sortTagsByFeq(all_posts, True, SPECTAG)
+writeTags2CSV(BLOG, sortedTags, SPECTAG)
