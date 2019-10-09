@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+#
+# A python script to list and count all tags within a Tumblr blog,
+# and export the data as a CSV file to local storage.
+#
+# Created on Oct 7, 2019; Updated on Oct 9, 2019
+#
 
 __author__ = 'chris'
 import pytumblr
@@ -29,23 +35,41 @@ def export_posts(client, from_blog):
             all_posts = all_posts + new_posts
         else:
             more = False
-    return all_posts
+    return  all_posts
 
-tagDict = {}
+# Count and sort the number of tags, 
+# args:
+#     posts
+#     DESC : True, for descending order
+# return:
+#     [(tag1, count1), (tag2, count2), ...]
+def sortTagsByFeq(posts, DESC):
+    tagDict = {}
+    for post in posts:
+        tags = post['tags']
+        for tag in tags:
+            if tag in tagDict:
+                tagDict[tag] += 1
+            else:
+                tagDict[tag] = 1
+    return sorted(tagDict.items(), key=lambda items: items[1], reverse=DESC)
+
+# Save sortedTags data as a CSV file
+# args:
+#     from_blog : prefix of the output filename
+#     tags: [(tag1, count1), (tag2, count2), ...]
+# return:
+#     filename : <from_blog> + '_tag_count.csv'
+def writeTags2CSV(from_blog, tags):
+    filename = from_blog + '_tag_count.csv'
+    with open(filename, 'w', encoding='utf-8', newline='\n') as f:
+        writer = csv.writer(f)
+        writer.writerow(['tags', 'num of post'])
+        for tag in tags:
+            writer.writerow(tag)
+            f.flush()
+    return filename
+
 all_posts = export_posts(CLIENT, BLOG)
-for post in all_posts:
-    tags = post['tags']
-    for tag in tags:
-        if tag in tagDict:
-            tagDict[tag] += 1
-        else:
-            tagDict[tag] = 1
-sortedTags = sorted(tagDict.items(), key=lambda items: items[1], reverse=True)
-print(sortedTags)
-
-with open(BLOG + '_tag_count.csv', 'w', encoding='utf-8', newline='\n') as f:
-    writer = csv.writer(f)
-    writer.writerow(['tags', 'num of post'])
-    for tag in sortedTags:
-        writer.writerow(tag)
-        f.flush()
+sortedTags = sortTagsByFeq(all_posts, True)
+writeTags2CSV(BLOG, sortedTags)
