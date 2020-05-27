@@ -25,3 +25,8 @@ A set of python scripts for manuplateing Tumblr blogs, which are inspired by [ub
 
 ### replacestr_in_allposts_py
 - Replace a string in the body and caption of all text and photo
+
+* * *
+
+## Related Project
+- [Amazon Associates Ads Loader for Tumblr](https://github.com/chriskyfung/amzn_assoc_loader_for_tumblr) <i class="fab fa-tumblr-square"></i><i class="fab fa-amazon"></i><i class="fab fa-js"></i>
